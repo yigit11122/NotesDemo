@@ -34,7 +34,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/editTextDetailTitle"
+        android:id="@+id/DetailTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
         tools:text="YIGIT" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/editTextDetailWrite"
+        android:id="@+id/DetailWrite"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="20dp"
@@ -56,7 +56,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextDetailTitle"
+        app:layout_constraintTop_toBottomOf="@id/DetailTitle"
         tools:text="dsaffasdfmasdflksdafjklsadjflkasdjflkasjdfklasjjlkfdjdsdalkfsakldfjlksadjflkasdjflksdajjlkgsadklgsadlkgsadlkagjmdfskljdkljakjaskjakşsjkaşsfkaşs" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

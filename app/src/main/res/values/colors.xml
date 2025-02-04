@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="write">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="write">#FFFFFF</color>
     <color name="background">#2B2B2B</color>
     <color name="ShapeBackground">#3B3B3B</color>
-
     <color name="cardViewBackground">#FD99FF</color>
-
-    <color name="addButtonBackgroundColor">##252525</color>
-
+    <color name="addButtonBackgroundColor">#252525</color>
     <color name="gray">#CFCFCF</color>
-
     <color name="red">#FF0000</color>
-
     <color name="green">#30BE71</color>
-
-
 </resources>
