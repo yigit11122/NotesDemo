@@ -69,9 +69,6 @@
         android:id="@+id/savePopupFragment"
         android:name="com.yigit.notesdemo.view.SavePopupFragment"
         android:label="SavePopupFragment" >
-        <action
-            android:id="@+id/action_savePopupFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
         <argument
             android:name="title"
             app:argType="string" />
@@ -90,5 +87,8 @@
         <action
             android:id="@+id/action_savePopupFragment_to_addNoteFragment4"
             app:destination="@id/addNoteFragment" />
+        <action
+            android:id="@+id/action_savePopupFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

@@ -61,8 +61,8 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun info(view:View) {
-        val action=HomeFragmentDirections.actionHomeFragmentToInfoPopupFragment()
+    fun info(view: View) {
+        val action = HomeFragmentDirections.actionHomeFragmentToInfoPopupFragment()
         Navigation.findNavController(view).navigate(action)
 
     }
@@ -75,14 +75,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleResponse(notes: List<Note>) {
-
-        val adapter = NoteAdapter(requireContext(),notes)
+        val adapter = NoteAdapter(requireContext(), notes.toMutableList())
         binding.RecyclerViewNotes.adapter = adapter
     }
 
+
     fun newAdd(view: View) {
         //0 sa yeni ekliyoruz.
-        val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(0, 0, "","")
+        val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(0, 0, "", "")
         Navigation.findNavController(view).navigate(action)
     }
 

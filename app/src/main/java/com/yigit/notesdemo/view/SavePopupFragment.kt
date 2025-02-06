@@ -73,7 +73,7 @@ class SavePopupFragment : Fragment() {
     }
 
     private fun handleResponseForInsert() {
-        val action = SavePopupFragmentDirections.actionSavePopupFragmentToDetailFragment(0)
+        val action = SavePopupFragmentDirections.actionSavePopupFragmentToHomeFragment2()
         Navigation.findNavController(requireView()).navigate(action)
     }
 
