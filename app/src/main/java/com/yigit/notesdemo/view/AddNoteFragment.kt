@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.room.Room
@@ -68,9 +69,15 @@ class AddNoteFragment : Fragment() {
         val title = binding.editTextTitleAddNote.text.toString()
         val text = binding.editTextWriteAddNote.text.toString()
 
-        val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
-        Navigation.findNavController(requireView()).navigate(action)
-
+        if (title != "" && text != "") {
+            val action =
+                AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
+            Navigation.findNavController(requireView()).navigate(action)
+        } else {
+            Toast.makeText(
+                requireContext(), "Please fill in the Title and Text sections", Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 
