@@ -66,17 +66,39 @@ class AddNoteFragment : Fragment() {
 
     private fun saveButton(view: View) {
 
-        val title = binding.editTextTitleAddNote.text.toString()
-        val text = binding.editTextWriteAddNote.text.toString()
+        val title = binding.editTextTitleAddNote.text.toString().trim()
+        val text = binding.editTextWriteAddNote.text.toString().trim()
 
-        if (title != "" && text != "") {
-            val action =
-                AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
-            Navigation.findNavController(requireView()).navigate(action)
-        } else {
-            Toast.makeText(
-                requireContext(), "Please fill in the Title and Text sections", Toast.LENGTH_LONG
-            ).show()
+        if (arguments?.getInt("edit") == 1) {
+            val oldTitle = arguments?.getString("title") ?: ""
+            val oldText = arguments?.getString("text") ?: ""
+
+            if (oldTitle == title && oldText == text) {
+                Toast.makeText(requireContext(), "no changes made!", Toast.LENGTH_SHORT).show()
+            } else if (title != "" && text != "") {
+                val action =
+                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
+                Navigation.findNavController(requireView()).navigate(action)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please fill in the Title and Text sections!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        if (arguments?.getInt("edit") == 0) {
+            if (title != "" && text != "") {
+                val action =
+                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
+                Navigation.findNavController(requireView()).navigate(action)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please fill in the Title and Text sections!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

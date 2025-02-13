@@ -60,6 +60,7 @@ class SavePopupFragment : Fragment() {
     }
 
     fun saveTrue(view: View) {
+
         mDisposable.add(
             noteDAO.insert(notes).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(this::handleResponseForInsert)
