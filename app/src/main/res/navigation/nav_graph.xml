@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.yigit.notesdemo.view.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_infoPopupFragment"
             app:destination="@id/infoPopupFragment" />
@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.yigit.notesdemo.view.AddNoteFragment"
-        android:label="AddNoteFragment" >
+        android:label="AddNoteFragment">
         <action
             android:id="@+id/action_addNoteFragment_to_savePopupFragment"
             app:destination="@id/savePopupFragment" />
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.yigit.notesdemo.view.DetailFragment"
-        android:label="DetailFragment" >
+        android:label="DetailFragment">
         <action
             android:id="@+id/action_detailFragment_to_addNoteFragment2"
             app:destination="@id/addNoteFragment" />
@@ -68,7 +68,7 @@
     <fragment
         android:id="@+id/savePopupFragment"
         android:name="com.yigit.notesdemo.view.SavePopupFragment"
-        android:label="SavePopupFragment" >
+        android:label="SavePopupFragment">
         <argument
             android:name="title"
             app:argType="string" />
@@ -90,5 +90,8 @@
         <action
             android:id="@+id/action_savePopupFragment_to_homeFragment2"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="edit"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -20,6 +20,7 @@ class AddNoteFragment : Fragment() {
 
     private lateinit var noteDB: NoteDB
     private lateinit var noteDAO: NoteDAO
+    private var edit: Int = 0
 
     private val mDisposable = CompositeDisposable()
 
@@ -44,7 +45,7 @@ class AddNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val edit = AddNoteFragmentArgs.fromBundle(it).edit
+            edit = AddNoteFragmentArgs.fromBundle(it).edit
             val id = AddNoteFragmentArgs.fromBundle(it).id
             val title = AddNoteFragmentArgs.fromBundle(it).title
             val text = AddNoteFragmentArgs.fromBundle(it).text
@@ -77,7 +78,11 @@ class AddNoteFragment : Fragment() {
                 Toast.makeText(requireContext(), "no changes made!", Toast.LENGTH_SHORT).show()
             } else if (title != "" && text != "") {
                 val action =
-                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
+                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
+                        title,
+                        text,
+                        edit
+                    )
                 Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(
@@ -90,7 +95,11 @@ class AddNoteFragment : Fragment() {
         if (arguments?.getInt("edit") == 0) {
             if (title != "" && text != "") {
                 val action =
-                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(title, text)
+                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
+                        title,
+                        text,
+                        edit
+                    )
                 Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(

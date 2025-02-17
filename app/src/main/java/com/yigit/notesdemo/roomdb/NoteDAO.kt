@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.yigit.notesdemo.model.Note
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -22,4 +23,7 @@ interface NoteDAO {
 
     @Delete
     fun delete(note: Note): Completable
+
+    @Update
+    fun update(note: Note): Completable
 }

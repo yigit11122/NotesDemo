@@ -22,6 +22,7 @@ class SavePopupFragment : Fragment() {
     private lateinit var notes: Note
     private lateinit var title: String
     private lateinit var text: String
+    private var edit: Int = 0
 
     private lateinit var noteDB: NoteDB
     private lateinit var noteDAO: NoteDAO
@@ -53,6 +54,7 @@ class SavePopupFragment : Fragment() {
             title = SavePopupFragmentArgs.fromBundle(it).title
             text = SavePopupFragmentArgs.fromBundle(it).text
             notes = Note(title, text)
+            edit = SavePopupFragmentArgs.fromBundle(it).edit
         }
         binding.saveButtonTrue.setOnClickListener { saveTrue(it) }
         binding.saveButtonFalse.setOnClickListener { saveFalse(it) }
@@ -65,6 +67,7 @@ class SavePopupFragment : Fragment() {
             noteDAO.insert(notes).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(this::handleResponseForInsert)
         )
+
     }
 
     fun saveFalse(view: View) {
@@ -74,8 +77,11 @@ class SavePopupFragment : Fragment() {
     }
 
     private fun handleResponseForInsert() {
+
+
         val action = SavePopupFragmentDirections.actionSavePopupFragmentToHomeFragment2()
         Navigation.findNavController(requireView()).navigate(action)
+
     }
 
     override fun onDestroy() {

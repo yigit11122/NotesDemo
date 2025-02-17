@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
 
         noteDAO = noteDB.NoteDAO()
 
-
     }
 
 
