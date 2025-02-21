@@ -73,16 +73,14 @@ class AddNoteFragment : Fragment() {
         if (arguments?.getInt("edit") == 1) {
             val oldTitle = arguments?.getString("title") ?: ""
             val oldText = arguments?.getString("text") ?: ""
+            val id = arguments?.getInt("id") ?: 0
 
             if (oldTitle == title && oldText == text) {
                 Toast.makeText(requireContext(), "no changes made!", Toast.LENGTH_SHORT).show()
             } else if (title != "" && text != "") {
-                val action =
-                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
-                        title,
-                        text,
-                        edit
-                    )
+                val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
+                    title, text, edit, id
+                )
                 Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(
@@ -94,12 +92,9 @@ class AddNoteFragment : Fragment() {
         }
         if (arguments?.getInt("edit") == 0) {
             if (title != "" && text != "") {
-                val action =
-                    AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
-                        title,
-                        text,
-                        edit
-                    )
+                val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
+                    title, text, edit, 0
+                )
                 Navigation.findNavController(requireView()).navigate(action)
             } else {
                 Toast.makeText(

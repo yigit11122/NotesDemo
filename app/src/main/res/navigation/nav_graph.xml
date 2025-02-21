@@ -89,9 +89,15 @@
             app:destination="@id/addNoteFragment" />
         <action
             android:id="@+id/action_savePopupFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
         <argument
             android:name="edit"
+            app:argType="integer" />
+        <argument
+            android:name="id"
+            android:defaultValue="0"
             app:argType="integer" />
     </fragment>
 </navigation>

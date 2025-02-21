@@ -62,4 +62,15 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, noteList.size)
     }
+
+    fun updateNotes(newNotes: MutableList<Note>) {
+        noteList.clear()
+        noteList.addAll(newNotes)
+        notifyDataSetChanged()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        mDisposable.clear()
+    }
 }

@@ -23,6 +23,7 @@ class SavePopupFragment : Fragment() {
     private lateinit var title: String
     private lateinit var text: String
     private var edit: Int = 0
+    private var noteId: Int = 0
 
     private lateinit var noteDB: NoteDB
     private lateinit var noteDAO: NoteDAO
@@ -53,24 +54,36 @@ class SavePopupFragment : Fragment() {
         arguments?.let {
             title = SavePopupFragmentArgs.fromBundle(it).title
             text = SavePopupFragmentArgs.fromBundle(it).text
-            notes = Note(title, text)
             edit = SavePopupFragmentArgs.fromBundle(it).edit
+            noteId = SavePopupFragmentArgs.fromBundle(it).id ?: 0
+        }
+        notes = Note(title, text).apply {
+            if (edit == 1) id = noteId
         }
         binding.saveButtonTrue.setOnClickListener { saveTrue(it) }
         binding.saveButtonFalse.setOnClickListener { saveFalse(it) }
 
     }
 
-    fun saveTrue(view: View) {
+    private fun saveTrue(view: View) {
 
-        mDisposable.add(
-            noteDAO.insert(notes).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::handleResponseForInsert)
-        )
+        if (edit == 1) {
+            mDisposable.add(
+                noteDAO.update(notes).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::handleResponseForUpdate)
+            )
+        } else {
+            mDisposable.add(
+                noteDAO.insert(notes).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::handleResponseForInsert)
+            )
+        }
 
     }
 
-    fun saveFalse(view: View) {
+    private fun saveFalse(view: View) {
         val action =
             SavePopupFragmentDirections.actionSavePopupFragmentToAddNoteFragment(0, 0, title, text)
         Navigation.findNavController(requireView()).navigate(action)
@@ -82,6 +95,11 @@ class SavePopupFragment : Fragment() {
         val action = SavePopupFragmentDirections.actionSavePopupFragmentToHomeFragment2()
         Navigation.findNavController(requireView()).navigate(action)
 
+    }
+
+    private fun handleResponseForUpdate() {
+        val action = SavePopupFragmentDirections.actionSavePopupFragmentToHomeFragment2()
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
     override fun onDestroy() {
