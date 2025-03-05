@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
+import com.yigit.notesdemo.R
 import com.yigit.notesdemo.databinding.ItemHomeNoteBinding
 import com.yigit.notesdemo.model.Note
+import com.yigit.notesdemo.roomdb.App
 import com.yigit.notesdemo.roomdb.NoteDAO
-import com.yigit.notesdemo.roomdb.NoteDB
 import com.yigit.notesdemo.view.HomeFragmentDirections
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,25 +18,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    private val noteDB: NoteDB = Room.databaseBuilder(context, NoteDB::class.java, "Note").build()
-    private val noteDAO: NoteDAO = noteDB.NoteDAO()
+    private val noteDAO: NoteDAO = App.noteDB.NoteDAO() // Singleton’dan al
     private val mDisposable = CompositeDisposable()
 
     class NoteViewHolder(val binding: ItemHomeNoteBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val itemHomeNoteBinding =
-            ItemHomeNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteViewHolder(itemHomeNoteBinding)
+        val binding = ItemHomeNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NoteViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return noteList.size
-    }
+    override fun getItemCount(): Int = noteList.size
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = noteList[position]
         holder.binding.textViewNoteItem.text = note.title
+
+        when (note.priority) {
+            0 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_low,0,0,0)
+            1 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_medium, 0, 0, 0)
+            2 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_high, 0, 0, 0)
+        }
 
         holder.itemView.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id = note.id)
@@ -48,11 +50,7 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
                 noteDAO.delete(note)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        removeNote(position)
-                    }, {
-                        it.printStackTrace()
-                    })
+                    .subscribe({ removeNote(position) }, { it.printStackTrace() })
             )
         }
     }

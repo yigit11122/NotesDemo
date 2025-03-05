@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -46,9 +47,7 @@
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="@null"
                 android:src="@drawable/ic_save" />
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -67,11 +66,51 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/editTextWriteAddNote"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunito_regular"
+        android:gravity="top"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/radioGroupPriority"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextTitleAddNote" />
+        app:layout_constraintTop_toBottomOf="@id/editTextTitleAddNote"
+        tools:text="ASDSADASDASDASDASDASDASDASDASDASDYIGITYIGITYIGIT" />
 
+    <RadioGroup
+        android:id="@+id/radioGroupPriority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <RadioButton
+            android:id="@+id/radioLow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_regular"
+            android:text="Low"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/radioMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_regular"
+            android:text="Medium"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/radioHigh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_regular"
+            android:text="High"
+            android:textColor="@color/white" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

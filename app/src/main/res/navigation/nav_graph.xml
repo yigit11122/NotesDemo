@@ -18,10 +18,12 @@
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/infoPopupFragment"
         android:name="com.yigit.notesdemo.view.InfoPopupFragment"
         android:label="InfoPopupFragment" />
+
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.yigit.notesdemo.view.AddNoteFragment"
@@ -41,10 +43,15 @@
         <argument
             android:name="text"
             app:argType="string" />
+        <argument
+            android:name="priority"
+            android:defaultValue="0"
+            app:argType="integer" />
         <action
             android:id="@+id/action_addNoteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.yigit.notesdemo.view.DetailFragment"
@@ -58,13 +65,8 @@
         <argument
             android:name="id"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_detailFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_detailFragment_to_homeFragment3"
-            app:destination="@id/homeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/savePopupFragment"
         android:name="com.yigit.notesdemo.view.SavePopupFragment"
@@ -75,23 +77,6 @@
         <argument
             android:name="text"
             app:argType="string" />
-        <action
-            android:id="@+id/action_savePopupFragment_to_addNoteFragment"
-            app:destination="@id/addNoteFragment" />
-        <action
-            android:id="@+id/action_savePopupFragment_to_addNoteFragment2"
-            app:destination="@id/addNoteFragment" />
-        <action
-            android:id="@+id/action_savePopupFragment_to_addNoteFragment3"
-            app:destination="@id/addNoteFragment" />
-        <action
-            android:id="@+id/action_savePopupFragment_to_addNoteFragment4"
-            app:destination="@id/addNoteFragment" />
-        <action
-            android:id="@+id/action_savePopupFragment_to_homeFragment2"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="false" />
         <argument
             android:name="edit"
             app:argType="integer" />
@@ -99,5 +84,17 @@
             android:name="id"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="priority"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_savePopupFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment" />
+        <action
+            android:id="@+id/action_savePopupFragment_to_homeFragment2"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>
