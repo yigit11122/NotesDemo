@@ -1,38 +1,43 @@
 package com.yigit.notesdemo.view
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.yigit.notesdemo.databinding.FragmentHomeBinding
+import android.view.WindowManager
+import androidx.fragment.app.DialogFragment
 import com.yigit.notesdemo.databinding.FragmentInfoPopupBinding
 
-class InfoPopupFragment : Fragment() {
+class InfoPopupFragment : DialogFragment() {
 
     private var _binding: FragmentInfoPopupBinding? = null
     private val binding get() = _binding!!
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent) // Pencere arka planını şeffaf yap
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            attributes = attributes.apply {
+                gravity = Gravity.CENTER
+                dimAmount = 0.5f
+                flags = flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
+            }
+        }
+        dialog?.setCancelable(true)
+        dialog?.setCanceledOnTouchOutside(true)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentInfoPopupBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

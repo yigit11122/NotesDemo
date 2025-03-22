@@ -20,6 +20,7 @@ class AddNoteFragment : Fragment() {
     private lateinit var noteDAO: NoteDAO
     private var edit: Int = 0
     private var selectedPriority: Int = 0
+    private var noteArguments: NoteArguments? = null
 
     private val mDisposable = CompositeDisposable()
 
@@ -38,20 +39,19 @@ class AddNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Argümanları al
-        arguments?.let {
-            edit = AddNoteFragmentArgs.fromBundle(it).edit
-            val id = AddNoteFragmentArgs.fromBundle(it).id
-            val title = AddNoteFragmentArgs.fromBundle(it).title
-            val text = AddNoteFragmentArgs.fromBundle(it).text
-            selectedPriority = AddNoteFragmentArgs.fromBundle(it).priority
-
-            binding.editTextTitleAddNote.setText(title)
-            binding.editTextWriteAddNote.setText(text)
-            updatePriorityUI()
+        arguments?.let { args ->
+            noteArguments = AddNoteFragmentArgs.fromBundle(args).noteData
+            noteArguments?.let { data ->
+                edit = data.edit ?: 0
+                data.title?.let { binding.editTextTitleAddNote.setText(it) }
+                data.text?.let { binding.editTextWriteAddNote.setText(it) }
+                data.priority?.let {
+                    selectedPriority = it
+                    updatePriorityUI()
+                }
+            }
         }
 
-        // Öncelik seçimi
         binding.radioGroupPriority.setOnCheckedChangeListener { _, checkedId ->
             selectedPriority = when (checkedId) {
                 R.id.radioLow -> 0
@@ -62,7 +62,7 @@ class AddNoteFragment : Fragment() {
         }
 
         binding.saveAddNote.setOnClickListener { saveButton(it) }
-        binding.chevronLeftAddNote.setOnClickListener { backButton(it) }
+        binding.chevronLeftAddNote.setOnClickListener { backButton() }
     }
 
     private fun updatePriorityUI() {
@@ -77,24 +77,29 @@ class AddNoteFragment : Fragment() {
         val title = binding.editTextTitleAddNote.text.toString().trim()
         val text = binding.editTextWriteAddNote.text.toString().trim()
 
-        if (edit == 1) {
-            val oldTitle = arguments?.getString("title") ?: ""
-            val oldText = arguments?.getString("text") ?: ""
-            val id = arguments?.getInt("id") ?: 0
-            val oldPriority = arguments?.getInt("priority") ?: 0
+        val currentNoteArguments = NoteArguments(
+            edit = edit,
+            id = noteArguments?.id ?: 0,
+            title = title,
+            text = text,
+            priority = selectedPriority
+        )
 
-            if (oldTitle == title && oldText == text && oldPriority == selectedPriority) {
-                Toast.makeText(requireContext(), "No changes made!", Toast.LENGTH_SHORT).show()
-            } else if (title.isNotEmpty() && text.isNotEmpty()) {
-                val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
-                    title, text, edit, id, priority = selectedPriority
-                )
-                Navigation.findNavController(view).navigate(action)
+        if (edit == 1) {
+            noteArguments?.let { oldData ->
+                val oldTitle = oldData.title ?: ""
+                val oldText = oldData.text ?: ""
+                val oldPriority = oldData.priority ?: 0
+
+                if (oldTitle == title && oldText == text && oldPriority == selectedPriority) {
+                    Toast.makeText(requireContext(), "No changes made!", Toast.LENGTH_SHORT).show()
+                } else if (title.isNotEmpty() && text.isNotEmpty()) {
+                    val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(currentNoteArguments)
+                    Navigation.findNavController(view).navigate(action)
+                }
             }
         } else if (title.isNotEmpty() && text.isNotEmpty()) {
-            val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(
-                title, text, edit, 0, priority = selectedPriority
-            )
+            val action = AddNoteFragmentDirections.actionAddNoteFragmentToSavePopupFragment(currentNoteArguments)
             Navigation.findNavController(view).navigate(action)
         } else {
             Toast.makeText(
@@ -105,9 +110,13 @@ class AddNoteFragment : Fragment() {
         }
     }
 
-    private fun backButton(view: View) {
-        val action = AddNoteFragmentDirections.actionAddNoteFragmentToHomeFragment()
-        Navigation.findNavController(view).navigate(action)
+    private fun backButton() {
+        val action = if (noteArguments?.id == null || noteArguments?.id == 0) {
+            AddNoteFragmentDirections.actionAddNoteFragmentToHomeFragment()
+        } else {
+            AddNoteFragmentDirections.actionAddNoteFragmentToDetailFragment(noteArguments!!)
+        }
+        Navigation.findNavController(binding.root).navigate(action)
     }
 
     override fun onDestroy() {

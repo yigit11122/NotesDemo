@@ -11,6 +11,7 @@ import com.yigit.notesdemo.model.Note
 import com.yigit.notesdemo.roomdb.App
 import com.yigit.notesdemo.roomdb.NoteDAO
 import com.yigit.notesdemo.view.HomeFragmentDirections
+import com.yigit.notesdemo.view.NoteArguments
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -18,7 +19,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    private val noteDAO: NoteDAO = App.noteDB.NoteDAO() // Singleton’dan al
+    private val noteDAO: NoteDAO = App.noteDB.NoteDAO()
     private val mDisposable = CompositeDisposable()
 
     class NoteViewHolder(val binding: ItemHomeNoteBinding) : RecyclerView.ViewHolder(binding.root)
@@ -35,13 +36,20 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
         holder.binding.textViewNoteItem.text = note.title
 
         when (note.priority) {
-            0 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_low,0,0,0)
+            0 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_low, 0, 0, 0)
             1 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_medium, 0, 0, 0)
             2 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_priority_high, 0, 0, 0)
         }
 
         holder.itemView.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id = note.id)
+            val noteArguments = NoteArguments(
+                edit = 0,
+                id = note.id,
+                title = note.title,
+                text = note.text,
+                priority = note.priority
+            )
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(noteArguments)
             Navigation.findNavController(it).navigate(action)
         }
 

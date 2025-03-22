@@ -4,6 +4,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+    <!-- HomeFragment -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.yigit.notesdemo.view.HomeFragment"
@@ -13,88 +14,92 @@
             app:destination="@id/infoPopupFragment" />
         <action
             android:id="@+id/action_homeFragment_to_addNoteFragment"
-            app:destination="@id/addNoteFragment" />
+            app:destination="@id/addNoteFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments"
+                app:nullable="true" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments" />
+        </action>
     </fragment>
 
-    <fragment
+    <!-- InfoPopupFragment -->
+    <dialog
         android:id="@+id/infoPopupFragment"
         android:name="com.yigit.notesdemo.view.InfoPopupFragment"
         android:label="InfoPopupFragment" />
 
+    <!-- AddNoteFragment -->
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.yigit.notesdemo.view.AddNoteFragment"
         android:label="AddNoteFragment">
+        <argument
+            android:name="noteData"
+            app:argType="com.yigit.notesdemo.view.NoteArguments"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addNoteFragment_to_savePopupFragment"
-            app:destination="@id/savePopupFragment" />
-        <argument
-            android:name="edit"
-            app:argType="integer" />
-        <argument
-            android:name="id"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="text"
-            app:argType="string" />
-        <argument
-            android:name="priority"
-            android:defaultValue="0"
-            app:argType="integer" />
+            app:destination="@id/savePopupFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments" />
+        </action>
+        <action
+            android:id="@+id/action_addNoteFragment_to_detailFragment"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments" />
+        </action>
         <action
             android:id="@+id/action_addNoteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 
+    <!-- DetailFragment -->
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.yigit.notesdemo.view.DetailFragment"
         android:label="DetailFragment">
+        <argument
+            android:name="noteData"
+            app:argType="com.yigit.notesdemo.view.NoteArguments" />
         <action
-            android:id="@+id/action_detailFragment_to_addNoteFragment2"
-            app:destination="@id/addNoteFragment" />
+            android:id="@+id/action_detailFragment_to_addNoteFragment"
+            app:destination="@id/addNoteFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments" />
+        </action>
         <action
             android:id="@+id/action_detailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-        <argument
-            android:name="id"
-            app:argType="integer" />
     </fragment>
 
-    <fragment
+    <!-- SavePopupFragment -->
+    <dialog
         android:id="@+id/savePopupFragment"
         android:name="com.yigit.notesdemo.view.SavePopupFragment"
         android:label="SavePopupFragment">
         <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="text"
-            app:argType="string" />
-        <argument
-            android:name="edit"
-            app:argType="integer" />
-        <argument
-            android:name="id"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="priority"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="noteData"
+            app:argType="com.yigit.notesdemo.view.NoteArguments" />
         <action
             android:id="@+id/action_savePopupFragment_to_addNoteFragment"
-            app:destination="@id/addNoteFragment" />
+            app:destination="@id/addNoteFragment">
+            <argument
+                android:name="noteData"
+                app:argType="com.yigit.notesdemo.view.NoteArguments" />
+        </action>
         <action
-            android:id="@+id/action_savePopupFragment_to_homeFragment2"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="false" />
-    </fragment>
+            android:id="@+id/action_savePopupFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </dialog>
 </navigation>

@@ -25,7 +25,7 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        noteDAO = App.noteDB.NoteDAO() // Singleton’dan al
+        noteDAO = App.noteDB.NoteDAO()
     }
 
     override fun onCreateView(
@@ -38,33 +38,38 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            noteId = DetailFragmentArgs.fromBundle(it).id
+        arguments?.let { bundle ->
+            val noteData = DetailFragmentArgs.fromBundle(bundle).noteData
+            noteId = noteData?.id // NoteData'dan id'yi alıyoruz
+            noteId?.let { id ->
+                mDisposable.add(
+                    noteDAO.findById(id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::handleResponseForFind)
+                )
+            }
         }
 
-        noteId?.let { id ->
-            mDisposable.add(
-                noteDAO.findById(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::handleResponseForFind)
-            )
-        }
-
-        binding.chevronLeftDetail.setOnClickListener { backButton(it) }
+        binding.chevronLeftDetail.setOnClickListener { backButton() }
         binding.modeDetail.setOnClickListener { modeButton(it) }
     }
 
-    private fun backButton(view: View) {
+    private fun backButton() {
         val action = DetailFragmentDirections.actionDetailFragmentToHomeFragment()
-        Navigation.findNavController(view).navigate(action)
+        Navigation.findNavController(binding.root).navigate(action)
     }
 
     private fun modeButton(view: View) {
         selectedNote?.let { note ->
-            val action = DetailFragmentDirections.actionDetailFragmentToAddNoteFragment2(
-                1, note.id, note.title, note.text, priority = note.priority
+            val noteArguments = NoteArguments(
+                edit = 1,
+                id = note.id,
+                title = note.title,
+                text = note.text,
+                priority = note.priority
             )
+            val action = DetailFragmentDirections.actionDetailFragmentToAddNoteFragment(noteArguments)
             Navigation.findNavController(view).navigate(action)
         }
     }

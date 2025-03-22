@@ -69,7 +69,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun newAdd(view: View) {
-        val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(0, 0, "", "", priority = 0)
+        val noteArguments = NoteArguments(
+            edit = 0,
+            id = null,
+            title = null,
+            text = null,
+            priority = 0
+        )
+        val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(noteArguments)
         Navigation.findNavController(view).navigate(action)
     }
 
