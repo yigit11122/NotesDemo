@@ -26,4 +26,8 @@ interface NoteDAO {
 
     @Update
     fun update(note: Note): Completable
+
+    @Query("SELECT * FROM Note WHERE Title LIKE '%' || :search || '%' OR Text LIKE '%' || :search || '%'")
+    fun searchNotes(search: String): Flowable<List<Note>>
+
 }

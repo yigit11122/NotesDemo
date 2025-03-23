@@ -51,11 +51,29 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.Toolbar>
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/searchEditTextHome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Search..."
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textColorHint="#A39595"
+        android:fontFamily="@font/nunito_regular"
+        android:visibility="visible"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarHome"
+        app:layout_constraintBottom_toTopOf="@id/RecyclerViewNotes"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewNotes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
+        android:layout_marginTop="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

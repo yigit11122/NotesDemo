@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,19 @@ class HomeFragment : Fragment() {
 
         binding.buttonAddHome.setOnClickListener { newAdd(it) }
         binding.buttonInfoHome.setOnClickListener { info(it) }
+        binding.buttonSearchHome.setOnClickListener { buttonVisibility() }
+
+        binding.searchEditTextHome.addTextChangedListener { editable ->
+
+            val query = editable.toString()
+
+            if (query.isEmpty()) {
+                getData()
+            } else {
+                searchData(query)
+            }
+
+        }
 
         binding.RecyclerViewNotes.layoutManager = LinearLayoutManager(requireContext())
         noteAdapter = NoteAdapter(requireContext(), mutableListOf())
@@ -52,10 +66,15 @@ class HomeFragment : Fragment() {
 
     private fun getData() {
         mDisposable.add(
-            noteDAO.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+            noteDAO.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse)
+        )
+    }
+
+    private fun searchData(query: String) {
+        mDisposable.add(
+            noteDAO.searchNotes(query).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::handleResponse)
         )
     }
 
@@ -70,15 +89,20 @@ class HomeFragment : Fragment() {
 
     private fun newAdd(view: View) {
         val noteArguments = NoteArguments(
-            edit = 0,
-            id = null,
-            title = null,
-            text = null,
-            priority = 0
+            edit = 0, id = null, title = null, text = null, priority = 0
         )
         val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(noteArguments)
         Navigation.findNavController(view).navigate(action)
     }
+
+    private fun buttonVisibility() {
+        if (binding.searchEditTextHome.visibility == View.GONE) {
+            binding.searchEditTextHome.visibility = View.VISIBLE
+        } else {
+            binding.searchEditTextHome.visibility = View.GONE
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
