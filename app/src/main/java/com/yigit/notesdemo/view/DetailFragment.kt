@@ -1,5 +1,6 @@
 package com.yigit.notesdemo.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class DetailFragment : Fragment() {
 
         binding.chevronLeftDetail.setOnClickListener { backButton() }
         binding.modeDetail.setOnClickListener { modeButton(it) }
+        binding.shareDetail.setOnClickListener { shareButton() }
     }
 
     private fun backButton() {
@@ -71,6 +73,18 @@ class DetailFragment : Fragment() {
             )
             val action = DetailFragmentDirections.actionDetailFragmentToAddNoteFragment(noteArguments)
             Navigation.findNavController(view).navigate(action)
+        }
+    }
+
+    private fun shareButton()
+    {
+        selectedNote?.let { note ->
+            val shareText="${note.title}\n${note.text}"
+            val intent=Intent(Intent.ACTION_SEND).apply {
+                type="text/plain"
+                putExtra(Intent.EXTRA_TEXT,shareText)
+            }
+            startActivity(Intent.createChooser(intent,"Share Note"))
         }
     }
 

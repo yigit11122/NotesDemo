@@ -2,7 +2,9 @@ package com.yigit.notesdemo.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
@@ -23,6 +25,7 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
 
     private val noteDAO: NoteDAO = App.noteDB.NoteDAO()
     private val mDisposable = CompositeDisposable()
+    private val editingStates = HashMap<Int, Boolean>()
 
     class NoteViewHolder(val binding: ItemHomeNoteBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -37,6 +40,18 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = noteList[position]
         holder.binding.textViewNoteItem.text = note.title
+
+        val isEditing = editingStates.getOrDefault(position, false)
+        if (isEditing) {
+            holder.binding.editLayout.visibility = View.VISIBLE
+            holder.binding.textViewNoteItem.visibility = View.GONE
+            holder.binding.buttonDeleteItem.visibility = View.GONE
+            holder.binding.editTextNoteItem.setText(note.title)
+        } else {
+            holder.binding.editLayout.visibility = View.GONE
+            holder.binding.textViewNoteItem.visibility = View.VISIBLE
+            holder.binding.buttonDeleteItem.visibility = View.VISIBLE
+        }
 
         when (note.priority) {
             0 -> holder.binding.textViewNoteItem.setCompoundDrawablesWithIntrinsicBounds(
@@ -89,6 +104,32 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
 
             }
             alert.show()
+        }
+
+        holder.itemView.setOnLongClickListener {
+            editingStates[position] = true
+            notifyItemChanged(position)
+            holder.binding.editTextNoteItem.requestFocus()
+            val imm =
+                holder.itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(holder.binding.editTextNoteItem, InputMethodManager.SHOW_IMPLICIT)
+            true
+        }
+        holder.binding.buttonSaveEdit.setOnClickListener {
+            val newTitle = holder.binding.editTextNoteItem.text.toString()
+            noteList[position].title = newTitle
+            val updatedNote = noteList[position]
+            mDisposable.add(
+                noteDAO.update(updatedNote).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                        editingStates[position] = false
+                        notifyItemChanged(position)
+                    }, { it.printStackTrace() })
+            )
+        }
+        holder.binding.buttonCancelEdit.setOnClickListener {
+            editingStates[position] = false
+            notifyItemChanged(position)
         }
     }
 

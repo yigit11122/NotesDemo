@@ -29,6 +29,15 @@
             android:layout_gravity="end"
             android:background="@drawable/rounded_background"
             android:src="@drawable/ic_mode" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/shareDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_background"
+            android:src="@drawable/ic_share" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -60,8 +69,8 @@
         android:id="@+id/textViewPriority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
         android:textColor="@color/gray"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
