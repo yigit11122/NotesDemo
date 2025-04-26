@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.exifinterface)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,4 +69,9 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
 
     implementation("com.airbnb.android:lottie:6.0.0")
+
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+
+    implementation ("androidx.exifinterface:exifinterface:1.3.7")
 }

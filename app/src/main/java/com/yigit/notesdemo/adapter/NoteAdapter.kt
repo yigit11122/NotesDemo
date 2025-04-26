@@ -19,6 +19,7 @@ import com.yigit.notesdemo.view.NoteArguments
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
 
 class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
@@ -81,27 +82,34 @@ class NoteAdapter(context: Context, private var noteList: MutableList<Note>) :
 
         holder.binding.buttonDeleteItem.setOnClickListener {
             val alert = AlertDialog.Builder(holder.itemView.context)
-            alert.setTitle("delete note")
-            alert.setMessage("Are you sure you want to delete this note?")
+            alert.setTitle("Notu Sil")
+            alert.setMessage("Bu notu silmek istediğinizden emin misiniz?")
 
-            alert.setPositiveButton("Yes") { dialog, which ->
-
+            alert.setPositiveButton("Evet") { _, _ ->
+                val imageMatch = Regex("\\[\\[image:(.+?)\\]\\]").find(note.text)
+                if (imageMatch != null) {
+                    val imagePath = imageMatch.groupValues[1]
+                    try {
+                        File(imagePath).delete()
+                    } catch (e: Exception) {
+                    }
+                }
                 mDisposable.add(
-                    noteDAO.delete(note).subscribeOn(Schedulers.io())
+                    noteDAO.delete(note)
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ removeNote(position) }, { it.printStackTrace() })
+                        .subscribe({
+                            removeNote(position)
+                            Toast.makeText(
+                                holder.itemView.context, "Not silindi!", Toast.LENGTH_SHORT
+                            ).show()
+                        }, { it.printStackTrace() })
                 )
-                Toast.makeText(
-                    holder.itemView.context, "Your note has been deleted", Toast.LENGTH_SHORT
-                ).show()
-
-
             }
-            alert.setNegativeButton("No") { dialog, which ->
+            alert.setNegativeButton("Hayır") { _, _ ->
                 Toast.makeText(
-                    holder.itemView.context, "Your note has not been deleted", Toast.LENGTH_SHORT
+                    holder.itemView.context, "Not silinmedi.", Toast.LENGTH_SHORT
                 ).show()
-
             }
             alert.show()
         }

@@ -53,6 +53,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarDetail" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailCardViewImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DetailTitle">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/detailImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:maxHeight="300dp" />
+    </androidx.cardview.widget.CardView>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/DetailWrite"
         android:layout_width="match_parent"
@@ -63,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@id/textViewPriority"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DetailTitle" />
+        app:layout_constraintTop_toBottomOf="@id/detailCardViewImage" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewPriority"

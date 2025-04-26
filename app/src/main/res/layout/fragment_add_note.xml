@@ -32,12 +32,12 @@
             android:gravity="center_vertical">
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/visibilityAddNote"
+                android:id="@+id/galleryAddNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_background"
                 android:backgroundTint="@null"
-                android:src="@drawable/ic_visibility" />
+                android:src="@drawable/ic_image" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/saveAddNote"
@@ -63,6 +63,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarAddNote" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewImageAddNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextTitleAddNote">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewAddNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:maxHeight="300dp" />
+    </androidx.cardview.widget.CardView>
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/editTextWriteAddNote"
         android:layout_width="match_parent"
@@ -70,12 +92,14 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunito_regular"
         android:gravity="top"
-        android:textSize="24sp"
         android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/radioGroupPriority"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextTitleAddNote"
+        app:layout_constraintTop_toBottomOf="@id/cardViewImageAddNote"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="ASDSADASDASDASDASDASDASDASDASDASDYIGITYIGITYIGIT" />
 
     <RadioGroup
